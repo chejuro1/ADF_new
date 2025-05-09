@@ -15,6 +15,11 @@ variables:
   dataFactoryName: chejuroADF
 
 steps:
+- task: UseNode@1
+  inputs:
+    version: '16.x'  # Specify the Node.js version you need
+  displayName: 'Install Node.js'
+
 - task: Npm@1
   displayName: 'Install ADF Utilities'
   inputs:
