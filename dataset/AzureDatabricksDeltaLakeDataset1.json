@@ -1,0 +1,25 @@
+{
+	"name": "AzureDatabricksDeltaLakeDataset1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDatabricksDeltaLake1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureDatabricksDeltaLakeDataset",
+		"typeProperties": {
+			"database": "adf_test",
+			"table": "poc"
+		},
+		"schema": [
+			{
+				"name": "workspace_url",
+				"type": "string"
+			},
+			{
+				"name": "workspace_name",
+				"type": "string"
+			}
+		]
+	}
+}
