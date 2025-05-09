@@ -14,12 +14,18 @@ steps:
   displayName: 'Run a one-line script'
 
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    pwd
+    ls 
+  displayName: 'copy template file to target location'
 
-- task: PublishPipelineArtifact@1
+# - task: PublishPipelineArtifact@1
+#   inputs:
+#     targetPath: '$(Build.Repository.LocalPath)/<folder-of-the-package.json-file>/ArmTemplate' #replace with the package.json folder
+#     artifact: 'ArmTemplates'
+#     publishLocation: 'pipeline'
+
+- task: PublishBuildArtifacts@1
   inputs:
-    targetPath: '$(Build.Repository.LocalPath)/<folder-of-the-package.json-file>/ArmTemplate' #replace with the package.json folder
-    artifact: 'ArmTemplates'
-    publishLocation: 'pipeline'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
