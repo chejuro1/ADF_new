@@ -9,23 +9,28 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+variables:
+  subscriptionId : 4a7ae167-f098-47b4-9017-a6cbad3a0abe
+  resourceGroupName: test1
+  dataFactoryName: chejuroADF
+
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: Npm@1
+  displayName: 'Install ADF Utilities'
+  inputs:
+    command: 'install'
+    workingDir: '$(Build.SourcesDirectory)'
+    verbose: true
 
 - script: |
-    pwd
-    ls 
-  displayName: 'copy template file to target location'
+    npx @microsoft/azure-data-factory-utilities validate "$(Build.SourcesDirectory)" "/subscriptions/$(subscriptionId)/resourceGroups/$(resourceGroupName)/providers/Microsoft.DataFactory/factories/$(dataFactoryName)"
+    npx @microsoft/azure-data-factory-utilities export "$(Build.SourcesDirectory)" "/subscriptions/$(subscriptionId)/resourceGroups/$(resourceGroupName)/providers/Microsoft.DataFactory/factories/$(dataFactoryName)" "$(Build.ArtifactStagingDirectory)/adf_arm"
+  displayName: 'Validate and Export ADF ARM Templates'
 
-# - task: PublishPipelineArtifact@1
-#   inputs:
-#     targetPath: '$(Build.Repository.LocalPath)/<folder-of-the-package.json-file>/ArmTemplate' #replace with the package.json folder
-#     artifact: 'ArmTemplates'
-#     publishLocation: 'pipeline'
 
 - task: PublishBuildArtifacts@1
+  displayName: 'Publish ADF ARM Templates'
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
+    pathToPublish: '$(Build.ArtifactStagingDirectory)/adf_arm'
+    artifactName: 'ADF_ARM_Templates'
     publishLocation: 'Container'
