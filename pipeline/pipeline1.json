@@ -20,6 +20,7 @@
 						"storeSettings": {
 							"type": "AzureBlobFSReadSettings",
 							"recursive": false,
+							"wildcardFileName": "poc.csv",
 							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
