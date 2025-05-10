@@ -22,7 +22,9 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
-     pwd 
+     pwd
+     npm version
+     which npm 
      ls /home/vsts/work/1/s/
 
 - task: Npm@1
