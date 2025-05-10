@@ -19,6 +19,11 @@ steps:
   inputs:
     version: '16.x'  # Specify the Node.js version you need
   displayName: 'Install Node.js'
+- task: CmdLine@2
+  inputs:
+    script: |
+     pwd 
+     ls /home/vsts/work/1/s/'
 
 - task: Npm@1
   displayName: 'Install ADF Utilities'
