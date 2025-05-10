@@ -23,7 +23,7 @@ steps:
   inputs:
     script: |
      pwd 
-     ls /home/vsts/work/1/s/'
+     ls /home/vsts/work/1/s/
 
 - task: Npm@1
   displayName: 'Install ADF Utilities'
