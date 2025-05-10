@@ -19,6 +19,7 @@ steps:
   inputs:
     version: '16.x'  # Specify the Node.js version you need
   displayName: 'Install Node.js'
+
 - task: CmdLine@2
   inputs:
     script: |
@@ -31,8 +32,9 @@ steps:
   displayName: 'Install ADF Utilities'
   inputs:
     command: 'install'
-    workingDir: '$(Build.SourcesDirectory)'
+    workingDir: '$(Build.SourcesDirectory)/chejuroADF'
     verbose: true
+
 
 - script: |
     npx @microsoft/azure-data-factory-utilities validate "$(Build.SourcesDirectory)" "/subscriptions/$(subscriptionId)/resourceGroups/$(resourceGroupName)/providers/Microsoft.DataFactory/factories/$(dataFactoryName)"
