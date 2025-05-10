@@ -9,42 +9,47 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-variables:
-  subscriptionId : 4a7ae167-f098-47b4-9017-a6cbad3a0abe
-  resourceGroupName: test1
-  dataFactoryName: chejuroADF
+# variables:
+#   subscriptionId : 4a7ae167-f098-47b4-9017-a6cbad3a0abe
+#   resourceGroupName: test1
+#   dataFactoryName: chejuroADF
 
 steps:
-- task: UseNode@1
+
+- task: CopyFiles@2
   inputs:
-    version: '16.x'  # Specify the Node.js version you need
-  displayName: 'Install Node.js'
+     SourceFolder: 'chejuroADF'
+     Contents: |
+                **/*
+                    
+     TargetFolder: '$(Build.ArtifactStagingDirectory)'
+  displayName: 'Copy Artifacts'
 
-- task: CmdLine@2
-  inputs:
-    script: |
-     pwd
-     npm version
-     which npm 
-     ls /home/vsts/work/1/s/
+# - task: CmdLine@2
+#   inputs:
+#     script: |
+#      pwd
+#      npm version
+#      which npm 
+#      ls /home/vsts/work/1/s/
 
-- task: Npm@1
-  displayName: 'Install ADF Utilities'
-  inputs:
-    command: 'install'
-    workingDir: '$(Build.SourcesDirectory)/chejuroADF'
-    verbose: true
+# - task: Npm@1
+#   displayName: 'Install ADF Utilities'
+#   inputs:
+#     command: 'install'
+#     workingDir: '$(Build.SourcesDirectory)/chejuroADF'
+#     verbose: true
 
 
-- script: |
-    npx @microsoft/azure-data-factory-utilities validate "$(Build.SourcesDirectory)" "/subscriptions/$(subscriptionId)/resourceGroups/$(resourceGroupName)/providers/Microsoft.DataFactory/factories/$(dataFactoryName)"
-    npx @microsoft/azure-data-factory-utilities export "$(Build.SourcesDirectory)" "/subscriptions/$(subscriptionId)/resourceGroups/$(resourceGroupName)/providers/Microsoft.DataFactory/factories/$(dataFactoryName)" "$(Build.ArtifactStagingDirectory)/adf_arm"
-  displayName: 'Validate and Export ADF ARM Templates'
+# - script: |
+#     npx @microsoft/azure-data-factory-utilities validate "$(Build.SourcesDirectory)" "/subscriptions/$(subscriptionId)/resourceGroups/$(resourceGroupName)/providers/Microsoft.DataFactory/factories/$(dataFactoryName)"
+#     npx @microsoft/azure-data-factory-utilities export "$(Build.SourcesDirectory)" "/subscriptions/$(subscriptionId)/resourceGroups/$(resourceGroupName)/providers/Microsoft.DataFactory/factories/$(dataFactoryName)" "$(Build.ArtifactStagingDirectory)/adf_arm"
+#   displayName: 'Validate and Export ADF ARM Templates'
 
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish ADF ARM Templates'
   inputs:
-    pathToPublish: '$(Build.ArtifactStagingDirectory)/adf_arm'
+    pathToPublish: '$(Build.ArtifactStagingDirectory)/'
     artifactName: 'ADF_ARM_Templates'
     publishLocation: 'Container'
